@@ -198,6 +198,8 @@
 
       // Send email via EmailJS
       emailjs.send("service_d0j35oq", "template_odw2yqc", {
+        name: "Cristina",                   // Replace with any name you want
+        time: new Date().toLocaleString(),  // Current timestamp
         message: "The Yes button was clicked!"
       })
       .then(() => console.log("Email sent successfully!"))
