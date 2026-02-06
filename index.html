@@ -7,12 +7,11 @@
   <!-- Patrick Hand Font -->
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
 
-  <!-- Latest EmailJS SDK -->
-<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script type="text/javascript">
-  emailjs.init("uJRveiflVj86F6D9n"); // Your public key
-</script>
-
+  <!-- Latest EmailJS classic SDK -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript">
+    emailjs.init("uJRveiflVj86F6D9n"); // <-- Replace with your EmailJS public key
+  </script>
 
   <style>
     body {
@@ -51,7 +50,6 @@
     /* Cute buttons */
     button {
       padding: 12px 24px;
-      background-color: #BA686F;
       margin: 0 10px;
       font-size: 18px;
       font-family: 'Patrick Hand', cursive;
@@ -64,10 +62,22 @@
       position: relative;
     }
 
-    button:hover {
-        transform: translateY(-3px);  /* small lift on hover */
-        background-color: #CC616C;    /* darker pink on hover */
-        box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    #yesBtn {
+      background-color: #6ec1ff;
+    }
+    #yesBtn:hover {
+      background-color: #4aa3ff;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    }
+
+    #noBtn {
+      background-color: #ff8fc4;
+    }
+    #noBtn:hover {
+      background-color: #ff5fa1;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.3);
     }
 
     button:active {
@@ -116,8 +126,15 @@
       padding: 8px 16px;
       cursor: pointer;
       font-size: 16px;
+      border-radius: 15px;
+      background-color: #ff8fc4;
+      color: white;
+      border: none;
     }
 
+    #closePopup:hover {
+      background-color: #ff5fa1;
+    }
   </style>
 </head>
 <body>
@@ -140,7 +157,7 @@
     </div>
   </div>
 
-  <script type="module">
+  <script type="text/javascript">
     const messages = [
       "Are you sure?",
       "Are you REALLY sure?",
@@ -191,7 +208,7 @@
     yesBtn.addEventListener("click", () => {
       popup.style.display = "flex";
 
-      // Send email via EmailJS (modern SDK)
+      // Send email via EmailJS
       emailjs.send("service_d0j35oq", "template_odw2yqc", {
         message: "The Yes button was clicked!"
       })
