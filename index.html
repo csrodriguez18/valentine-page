@@ -50,6 +50,7 @@
     /* Cute buttons */
     button {
       padding: 12px 24px;
+      background-color: #BA686F;
       margin: 0 10px;
       font-size: 18px;
       font-family: 'Patrick Hand', cursive;
@@ -62,22 +63,10 @@
       position: relative;
     }
 
-    #yesBtn {
-      background-color: #6ec1ff;
-    }
-    #yesBtn:hover {
-      background-color: #4aa3ff;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-    }
-
-    #noBtn {
-      background-color: #ff8fc4;
-    }
-    #noBtn:hover {
-      background-color: #ff5fa1;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    button:hover {
+        transform: translateY(-3px);  /* small lift on hover */
+        background-color: #CC616C;    /* darker pink on hover */
+        box-shadow: 0 8px 15px rgba(0,0,0,0.3);
     }
 
     button:active {
