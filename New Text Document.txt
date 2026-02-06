@@ -3,16 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Happy Valentine's!</title>
-
-  <!-- Patrick Hand Font -->
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-
-  <!-- Latest EmailJS SDK -->
-  <script type="module">
-    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
-    window.emailjs = emailjs;
-    emailjs.init("uJRveiflVj86F6D9n"); // <-- Replace with your EmailJS public key
-  </script>
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+    (function(){
+        emailjs.init("uJRveiflVj86F6D9n"); // <-- Replace with your EmailJS public key
+    })();
+    </script>
 
   <style>
     body {
@@ -24,10 +22,12 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      font-family: Arial, sans-serif;
       position: relative;
     }
 
     #message {
+      font-family: 'Patrick Hand', cursive;
       color: white;
       position: absolute;
       top: 40px;
@@ -48,20 +48,19 @@
       transition: opacity 0.5s ease;
     }
 
-    /* Cute buttons */
     button {
-      padding: 12px 24px;
-      background-color: #BA686F;
-      margin: 0 10px;
-      font-size: 18px;
-      font-family: 'Patrick Hand', cursive;
-      cursor: pointer;
-      border: none;
-      border-radius: 25px;
-      color: white;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
+        padding: 12px 24px;
+        margin: 0 10px;
+        font-size: 18px;
+        font-family: 'Patrick Hand', cursive;
+        cursor: pointer;
+        border: none;
+        border-radius: 25px;          /* makes it pill-shaped */
+        background-color: #BA686F;    /* cute pink */
+        color: white;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
     }
 
     button:hover {
@@ -71,12 +70,13 @@
     }
 
     button:active {
-      animation: bounce 0.2s;
-    }
-    @keyframes bounce {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+        animation: bounce 0.2s;
+        }
+
+        @keyframes bounce {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
     }
 
     /* Popup modal */
@@ -91,7 +91,6 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
-      display: flex;
     }
 
     #popupContent {
@@ -100,15 +99,14 @@
       text-align: center;
       border-radius: 10px;
       max-width: 400px;
-      font-family: 'Patrick Hand', cursive;
     }
 
     #popupContent img {
-      width: 80%;
-      max-width: 400px;
-      height: auto;
-      margin-top: 15px;
-      border-radius: 5px;
+        width: 80%;       /* fills 80% of popup width */
+        max-width: 400px; /* won’t exceed 400px */
+        height: auto;
+        margin-top: 15px;
+        border-radius: 5px;
     }
 
     #closePopup {
@@ -117,7 +115,6 @@
       cursor: pointer;
       font-size: 16px;
     }
-
   </style>
 </head>
 <body>
@@ -140,7 +137,7 @@
     </div>
   </div>
 
-  <script type="module">
+  <script>
     const messages = [
       "Are you sure?",
       "Are you REALLY sure?",
@@ -156,6 +153,8 @@
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const messageDiv = document.getElementById("message");
+    const mainImage = document.getElementById("mainImage");
+
     const popup = document.getElementById("popup");
     const closePopup = document.getElementById("closePopup");
 
@@ -176,12 +175,12 @@
 
       clickCount++;
 
-      // After 5 clicks, No disappears offscreen
+      // After 5 clicks, No disappears to corner
       if (clickCount >= messages.length) {
         noBtn.style.position = "absolute";
         const corner = Math.random() < 0.5 
-          ? "left: -2000px; top: -2000px;" 
-          : "right: -2000px; top: -2000px;";
+          ? "left: 2000000px; top: 2000000px;" 
+          : "right: 2000000px; top: 2000000px;";
         noBtn.style.cssText += corner;
         messageDiv.textContent = "";
       }
@@ -189,34 +188,40 @@
 
     // Yes button behavior
     yesBtn.addEventListener("click", () => {
-      popup.style.display = "flex";
+    // Show popup instead of alert
+    popup.style.display = "flex";
 
-      // Send email via EmailJS (modern SDK)
-      emailjs.send("service_d0j35oq", "template_odw2yqc", {
+    // Send email using EmailJS
+    emailjs.send("service_d0j35oq", "template_odw2yqc", {
         message: "The Yes button was clicked!"
-      })
-      .then(() => console.log("Email sent successfully!"))
-      .catch((error) => console.error("Email send error:", error));
-
-      // Reset buttons/message
-      yesScale = 1;
-      noScale = 1;
-      clickCount = 0;
-      yesBtn.style.transform = "scale(1)";
-      noBtn.style.transform = "scale(1)";
-      noBtn.style.position = "relative";
-      noBtn.style.left = "0";
-      noBtn.style.top = "0";
-      noBtn.style.right = "unset";
-      messageDiv.textContent = "";
+    })
+    .then(() => {
+        console.log("Email sent successfully!");
+    })
+    .catch((error) => {
+        console.error("Email send error:", error);
     });
 
-    // Close popup
+    // Reset buttons and message
+    yesScale = 1;
+    noScale = 1;
+    clickCount = 0;
+
+    yesBtn.style.transform = "scale(1)";
+    noBtn.style.transform = "scale(1)";
+    noBtn.style.position = "relative";
+    noBtn.style.left = "0";
+    noBtn.style.top = "0";
+    noBtn.style.right = "unset";
+
+    messageDiv.textContent = "";
+    });
+
+
+    // Close popup button
     closePopup.addEventListener("click", () => {
       popup.style.display = "none";
     });
   </script>
 </body>
 </html>
-
-
