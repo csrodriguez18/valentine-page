@@ -7,12 +7,6 @@
   <!-- Patrick Hand Font -->
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
 
-  <!-- Latest EmailJS classic SDK -->
-  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script type="text/javascript">
-    emailjs.init("uJRveiflVj86F6D9n"); // <-- Replace with your EmailJS public key
-  </script>
-
   <style>
     body {
       font-family: 'Patrick Hand', cursive;
@@ -145,7 +139,12 @@
     </div>
   </div>
 
-  <script type="text/javascript">
+ <script type="module">
+    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+
+    // ✅ Initialize EmailJS v4
+    emailjs.init("uJRveiflVj86F6D9n"); // <-- REPLACE with your public key
+
     const messages = [
       "Are you sure?",
       "Are you REALLY sure?",
