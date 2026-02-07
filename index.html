@@ -41,7 +41,6 @@
       transition: opacity 0.5s ease;
     }
 
-    /* Cute buttons */
     button {
       padding: 12px 24px;
       background-color: #BA686F;
@@ -58,21 +57,21 @@
     }
 
     button:hover {
-        transform: translateY(-3px);
-        background-color: #CC616C;
-        box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+      transform: translateY(-3px);
+      background-color: #CC616C;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.3);
     }
 
     button:active {
       animation: bounce 0.2s;
     }
+
     @keyframes bounce {
       0% { transform: scale(1); }
       50% { transform: scale(1.1); }
       100% { transform: scale(1); }
     }
 
-    /* Popup modal */
     #popup {
       display: none;
       position: fixed;
@@ -123,7 +122,6 @@
   <div id="message"></div>
 
   <div class="container">
-    <!-- Make sure these image files are in the same folder as index.html -->
     <img id="mainImage" src="valentine.jpg" alt="Centered image">
     <div>
       <button id="yesBtn">Yes</button>
@@ -131,7 +129,6 @@
     </div>
   </div>
 
-  <!-- Popup modal -->
   <div id="popup">
     <div id="popupContent">
       <h2>YAY!</h2>
@@ -141,85 +138,87 @@
     </div>
   </div>
 
-  <script type="module">
+  <script type="module" crossorigin="anonymous">
     import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
 
-    emailjs.init("uJRveiflVj86F6D9n"); // <-- Replace with your public key
+    window.onload = () => {
+      emailjs.init("uJRveiflVj86F6D9n"); // <-- Replace with your EmailJS public key
 
-    const messages = [
-      "Are you sure?",
-      "Are you REALLY sure?",
-      "Why not?",
-      "I think you're making the wrong decision!",
-      "Here, I'll help..."
-    ];
+      const messages = [
+        "Are you sure?",
+        "Are you REALLY sure?",
+        "Why not?",
+        "I think you're making the wrong decision!",
+        "Here, I'll help..."
+      ];
 
-    let clickCount = 0;
-    let yesScale = 1;
-    let noScale = 1;
+      let clickCount = 0;
+      let yesScale = 1;
+      let noScale = 1;
 
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const messageDiv = document.getElementById("message");
-    const popup = document.getElementById("popup");
-    const closePopup = document.getElementById("closePopup");
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+      const messageDiv = document.getElementById("message");
+      const popup = document.getElementById("popup");
+      const closePopup = document.getElementById("closePopup");
 
-    // No button behavior
-    noBtn.addEventListener("click", () => {
-      if (clickCount < messages.length) {
-        messageDiv.textContent = messages[clickCount];
-      }
-
-      yesScale += 0.2;
-      yesBtn.style.transform = `scale(${yesScale})`;
-
-      noScale -= 0.1;
-      if (noScale < 0.3) noScale = 0.3;
-      noBtn.style.transform = `scale(${noScale})`;
-
-      clickCount++;
-
-      if (clickCount >= messages.length) {
-        noBtn.style.position = "absolute";
-        if (Math.random() < 0.5) {
-          noBtn.style.left = "-2000px";
-          noBtn.style.top = "-2000px";
-        } else {
-          noBtn.style.right = "-2000px";
-          noBtn.style.top = "-2000px";
+      // No button behavior
+      noBtn.addEventListener("click", () => {
+        if (clickCount < messages.length) {
+          messageDiv.textContent = messages[clickCount];
         }
+
+        yesScale += 0.2;
+        yesBtn.style.transform = `scale(${yesScale})`;
+
+        noScale -= 0.1;
+        if (noScale < 0.3) noScale = 0.3;
+        noBtn.style.transform = `scale(${noScale})`;
+
+        clickCount++;
+
+        if (clickCount >= messages.length) {
+          noBtn.style.position = "absolute";
+          if (Math.random() < 0.5) {
+            noBtn.style.left = "-2000px";
+            noBtn.style.top = "-2000px";
+          } else {
+            noBtn.style.right = "-2000px";
+            noBtn.style.top = "-2000px";
+          }
+          messageDiv.textContent = "";
+        }
+      });
+
+      // Yes button behavior
+      yesBtn.addEventListener("click", () => {
+        popup.style.display = "flex";
+
+        emailjs.send("service_d0j35oq", "template_odw2yqc", {
+          name: "Cristina",
+          time: new Date().toLocaleString(),
+          message: "The Yes button was clicked!"
+        })
+        .then(() => console.log("Email sent successfully!"))
+        .catch((error) => console.error("Email send error:", error));
+
+        yesScale = 1;
+        noScale = 1;
+        clickCount = 0;
+        yesBtn.style.transform = "scale(1)";
+        noBtn.style.transform = "scale(1)";
+        noBtn.style.position = "relative";
+        noBtn.style.left = "0";
+        noBtn.style.top = "0";
+        noBtn.style.right = "unset";
         messageDiv.textContent = "";
-      }
-    });
+      });
 
-    // Yes button behavior
-    yesBtn.addEventListener("click", () => {
-      popup.style.display = "flex";
-
-      emailjs.send("service_d0j35oq", "template_odw2yqc", {
-        name: "Cristina",
-        time: new Date().toLocaleString(),
-        message: "The Yes button was clicked!"
-      })
-      .then(() => console.log("Email sent successfully!"))
-      .catch((error) => console.error("Email send error:", error));
-
-      yesScale = 1;
-      noScale = 1;
-      clickCount = 0;
-      yesBtn.style.transform = "scale(1)";
-      noBtn.style.transform = "scale(1)";
-      noBtn.style.position = "relative";
-      noBtn.style.left = "0";
-      noBtn.style.top = "0";
-      noBtn.style.right = "unset";
-      messageDiv.textContent = "";
-    });
-
-    // Close popup
-    closePopup.addEventListener("click", () => {
-      popup.style.display = "none";
-    });
+      // Close popup
+      closePopup.addEventListener("click", () => {
+        popup.style.display = "none";
+      });
+    };
   </script>
 </body>
 </html>
