@@ -138,12 +138,8 @@
     </div>
   </div>
 
-  <script type="module" crossorigin="anonymous">
-    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-
+  <script>
     window.onload = () => {
-      emailjs.init("uJRveiflVj86F6D9n"); // <-- Replace with your EmailJS public key
-
       const messages = [
         "Are you sure?",
         "Are you REALLY sure?",
@@ -194,14 +190,7 @@
       yesBtn.addEventListener("click", () => {
         popup.style.display = "flex";
 
-        emailjs.send("service_d0j35oq", "template_odw2yqc", {
-          name: "Cristina",
-          time: new Date().toLocaleString(),
-          message: "The Yes button was clicked!"
-        })
-        .then(() => console.log("Email sent successfully!"))
-        .catch((error) => console.error("Email send error:", error));
-
+        // Reset buttons and message
         yesScale = 1;
         noScale = 1;
         clickCount = 0;
@@ -222,5 +211,6 @@
   </script>
 </body>
 </html>
+
 
 
