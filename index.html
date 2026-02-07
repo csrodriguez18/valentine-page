@@ -58,8 +58,8 @@
     }
 
     button:hover {
-        transform: translateY(-3px);  /* small lift on hover */
-        background-color: #CC616C;    /* darker pink on hover */
+        transform: translateY(-3px);
+        background-color: #CC616C;
         box-shadow: 0 8px 15px rgba(0,0,0,0.3);
     }
 
@@ -121,7 +121,9 @@
 </head>
 <body>
   <div id="message"></div>
+
   <div class="container">
+    <!-- Make sure these image files are in the same folder as index.html -->
     <img id="mainImage" src="valentine.jpg" alt="Centered image">
     <div>
       <button id="yesBtn">Yes</button>
@@ -139,11 +141,10 @@
     </div>
   </div>
 
- <script type="module">
+  <script type="module">
     import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
 
-    // ✅ Initialize EmailJS v4
-    emailjs.init("uJRveiflVj86F6D9n"); // <-- REPLACE with your public key
+    emailjs.init("uJRveiflVj86F6D9n"); // <-- Replace with your public key
 
     const messages = [
       "Are you sure?",
@@ -169,24 +170,24 @@
         messageDiv.textContent = messages[clickCount];
       }
 
-      // Increase Yes button
       yesScale += 0.2;
       yesBtn.style.transform = `scale(${yesScale})`;
 
-      // Shrink No button
       noScale -= 0.1;
       if (noScale < 0.3) noScale = 0.3;
       noBtn.style.transform = `scale(${noScale})`;
 
       clickCount++;
 
-      // After 5 clicks, No disappears offscreen
       if (clickCount >= messages.length) {
         noBtn.style.position = "absolute";
-        const corner = Math.random() < 0.5 
-          ? "left: -2000px; top: -2000px;" 
-          : "right: -2000px; top: -2000px;";
-        noBtn.style.cssText += corner;
+        if (Math.random() < 0.5) {
+          noBtn.style.left = "-2000px";
+          noBtn.style.top = "-2000px";
+        } else {
+          noBtn.style.right = "-2000px";
+          noBtn.style.top = "-2000px";
+        }
         messageDiv.textContent = "";
       }
     });
@@ -195,16 +196,14 @@
     yesBtn.addEventListener("click", () => {
       popup.style.display = "flex";
 
-      // Send email via EmailJS
       emailjs.send("service_d0j35oq", "template_odw2yqc", {
-        name: "Cristina",                   // Replace with any name you want
-        time: new Date().toLocaleString(),  // Current timestamp
+        name: "Cristina",
+        time: new Date().toLocaleString(),
         message: "The Yes button was clicked!"
       })
       .then(() => console.log("Email sent successfully!"))
       .catch((error) => console.error("Email send error:", error));
 
-      // Reset buttons/message
       yesScale = 1;
       noScale = 1;
       clickCount = 0;
